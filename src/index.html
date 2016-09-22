@@ -13,6 +13,7 @@
     <link rel="publisher" href="https://plus.google.com/u/0/+temilaj" />
 
 
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
 
@@ -35,8 +36,57 @@
             </div>
         </div>
     </nav>
-
+    
+    <div class="container">
+        <div class="row">
+            <div class="alert alert-danger .js-geolocation hide" role="alert">
+                <strong>Oh snap!</strong> Your browser doesn't support geolocation'
+            </div>
+            <div class="col-sm-9">
+                 <div class="weather-wrapper">
+                    <div class="weather-card" id="weather">
+                        <span><i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i> Loading..</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="js/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.rawgit.com/monkeecreate/jquery.simpleWeather/master/jquery.simpleWeather.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+       
+    <script type="text/javascript">
+            /* Does your browser support geolocation? */
+            if ("geolocation" in navigator) {
+                $('.js-geolocation').show();
+            } else {
+                $('.js-geolocation').hide();
+            }
+
+            /* Where in the world are you? */
+            $('document').ready(function () {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    loadWeather(position.coords.latitude + ',' + position.coords.longitude); //load weather using your lat/lng coordinates
+                });
+            });
+
+            function loadWeather(location, woeid) {
+                $.simpleWeather({
+                    location: location,
+                    woeid: woeid,
+                    unit: 'f',
+                    success: function (weather) {
+                        html = '<div class="weather-icon icon-' + weather.code + '"></div><h1>' + weather.alt.temp + '&deg;C' + '</h1><p>' + weather.city + weather.region + '</p><span>' + weather.currently + '</span>';
+
+                        $("#weather").html(html);
+                    },
+                    error: function (error) {
+                        $("#weather").html('<p>' + error + '</p>');
+                    }
+                });
+            }
+    </script>
 </body>
 </html>
