@@ -1,2 +1,2 @@
 # Weather--Web
-A simple weather web app. hopefully, it get's complex later on
+A simple weather web app. Hopefully, it gets complex later on
